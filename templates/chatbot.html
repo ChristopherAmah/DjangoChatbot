@@ -6,6 +6,75 @@
         height: 100%;
     }
 
+    .connect{
+        background-color: #045DE9;
+        height: 79px;
+        padding: 25px 40px 25px 40px;
+        gap: 10px;
+    }
+    
+    .connect .navbar-brand{
+        font-weight: 700;
+        size: 23px;
+        color: #ffffff;
+        line-height: 27.6px;
+    }
+    
+    .connect .row .nav-item{
+        height: 29px;
+        width: 42px;
+    }
+    
+    .connect .row b{
+        font-weight: 700;
+        font-size: 14px;
+        color: #ffffff;
+    }
+    
+    .connect .row p a{
+        font-weight: 400;
+        font-size: 10px;
+        color: #ffffff;
+        text-decoration: none;
+    }
+    
+    .connect .nav-item i{
+        border-radius: 50%;
+        color: black;
+        background-color: #ffffff;
+        padding: 15px;
+        margin-left: -40px;
+    }
+    
+    .chat {
+        width: 450px;
+        height: 537px;
+    }
+
+    .row .card-body{
+        height: 430px;
+    }
+
+    .row .card-body .header {
+        height: 61px;
+    }
+
+    .row .card-body .header b{
+        font-weight: 700px;
+        font-size: 28px;
+        Line height: 33.6px;
+    }
+
+    .row .card-body .header p{
+        font-weight: 500px;
+        font-size: 16px;
+        Line height: 19.2px;
+    }
+
+    ::-webkit-scrollbar{
+        display: none;
+    }
+
     .messages-box{
         flex: 1;
         overflow-y: auto;
@@ -26,12 +95,12 @@
     }
 
     .sent{
-        background-color: #dcf8c6;
+        /*background-color: #dcf8c6;*/
         align-self: flex-end;
     }
 
     .received{
-        background-color: #f1f0f0;
+        /*background-color: #f1f0f0;*/
         align-self: flex-start;
     }
     
@@ -41,14 +110,23 @@
         bottom: 0;
         left: 0;
         right: 0;
-        padding: 10px;
-        background-color: #f8f9f0;
+        padding: 6px, 20px, 16px, 20px;
+        width: 482px;
+        height: 46px;
+        left: 380px;
+        border: none;
+        outline: none;
+        
     }
 
     .message-input{
         flex: 1;
         border-radius: 0;
         border-right: none;
+        padding: 6px, 20px, 16px, 20px;
+        border: none;
+        outline: none;
+        background-color: #EDEDEF;
     }
     
     .btn-send{
@@ -67,67 +145,108 @@
 {% block content %}
 <div class="chat-container">
     <div class="card flex-grow-1">
-        <div class="card-header bg-primary text-white">Chat</div>
+        <nav class="navbar navbar-expand-lg navbar-light connect">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">chat.me</a>
+              {% if user.is_authenticated %}
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-lg-0">
+                  <div class="row">
+                      <li>
+                          <b>{{user.username}}</b>
+                      </li>
+                        <li>
+                          <p><a href="logout">Log out</a></p>
+                          {% else %}
+                          <div class="card-header bg-primary text-white"><a href="login"> Login</a> <a href="register"> Register</a></div>
+                          {% endif %}
+                        </li>
+                  </div>
+                  <li class="nav-item">
+                    <i class="fa-regular fa-user mt-2"></i>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
+
+
+        {% comment %} <div class="card-header bg-primary text-white">Chat</div>
         {% if user.is_authenticated %}
         <div class="card-header bg-primary text-white"><b>Welcome, {{user.username}}</b>   <a style="color: yellow" href="logout"> Logout</a></div>
         {% else %}
         <div class="card-header bg-primary text-white"><a style="color: yellow" href="login"> Login</a>   <a style="color: yellow" href="register"> Register</a></div>
-        {% endif %}
-        <div class="card-body messages-box">
+        {% endif %} {% endcomment %}
 
-            <ul class="list-unstyled messages-list">
-                {% comment %} <li class="message received">
-                    <div class="message-text">
-                        <div class="message-sender">
-                            <b>AI Chatbot</b>
-                        </div>
-                        <div class="message-content">
-                            Hi {{user.username}}, I am your AI Chatbot, you can ask me anything.
-                        </div>
-                     </div>
-                </li> {% endcomment %}
+        <div class="row container-fluid">
+            <div class="col-12 col-xl-3"></div>
 
-                {% for chat in chats %}
-                  {% if chat.user == request.user %}
-                  <li class="message sent">
-                    <div class="message-text">
-                        <div class="message-sender">
-                            <b>You</b>
-                        </div>
-                        <div class="message-content">
-                            {{chat.message}}
-                        </div>
-                     </div>
-                </li>
-
-
-                <li class="message received">
-                    <div class="message-text">
-                        <div class="message-sender">
-                            <b>AI Chatbot</b>
-                        </div>
-                        <div class="message-content">
-                            {{chat.response}}
-                        </div>
-                     </div>
-                </li>
-
-                  {% endif %}
-                {% endfor %}
-
-            </ul>
-
+            <div class="col-12 col-xl-6">
+                <div class="card-body messages-box">
+                    <div class="header mb-2">
+                        <b>Tell me your school issues</b>
+                        <p>Type in the text box below to begin a conversation</p>
+                    </div>
+                    <ul class="list-unstyled messages-list">
+                        {% comment %} <li class="message received">
+                            <div class="message-text">
+                                <div class="message-sender">
+                                    <b>AI Chatbot</b>
+                                </div>
+                                <div class="message-content">
+                                    Hi {{user.username}}, I am your AI Chatbot, you can ask me anything.
+                                </div>
+                             </div>
+                        </li> {% endcomment %}
+        
+                        {% for chat in chats %}
+                          {% if chat.user == request.user %}
+                          <li class="message sent">
+                            <div class="message-text">
+                                <div class="message-sender">
+                                    <b class="text-success">You</b>
+                                </div>
+                                <div class="message-content">
+                                    {{chat.message}}
+                                </div>
+                             </div>
+                        </li>
+        
+        
+                        <li class="message received">
+                            <div class="message-text">
+                                <div class="message-sender">
+                                    <b class="text-primary">Chatbot</b>
+                                </div>
+                                <div class="message-content">
+                                    {{chat.response}}
+                                </div>
+                             </div>
+                        </li>
+        
+                          {% endif %}
+                        {% endfor %}
+        
+                    </ul>
+        
+                </div>
+            </div>
+            <div class="col-12 col-xl-3"></div>
         </div>
+        
         <br><br>
         <br><br>
         <br><br>
     </div>
-    <form action="" class="message-form">
+    <form action="" class="message-form mb-5">
         {% csrf_token %}
         <div class="input-group">
             <input type="text" class="form-control message-input" placeholder="Type your message">
             <div class="input-group-append">
-                <button type="submit" class="btn btn-primary btn-send">Send</button>
+                <button type="submit" class="btn btn-primary btn-send"><i class="fas fa-paper-plane p-2"></i></button>
             </div>
         </div>
     </form>
@@ -151,7 +270,7 @@
         messageItem.innerHTML = `
         <div class="message-text">
             <div class="message-sender">
-                <b>You</b>
+                <b class="text-success">You</b>
             </div>
             <div class="message-content">
                 ${message}
@@ -178,7 +297,7 @@
             messageItem.innerHTML = `
             <div class="message-text">
                 <div class="message-sender">
-                    <b>AI Chatbot</b>
+                    <b class="text-primary">Chatbot</b>
                 </div>
                 <div class="message-content">
                     ${response}

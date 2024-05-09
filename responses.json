@@ -1,0 +1,9 @@
+{
+    "greetings": ["Hey there!", "Hello!", "Hi!", "Greetings!"],
+    "farewell": ["Goodbye!", "See you later!", "Farewell!", "Bye!"],
+    "questions": ["I'm not sure about that...", "That's an interesting question!", "Hmm, let me think..."],
+    "affirmative": ["Great!", "Awesome!", "Absolutely!", "Indeed!"],
+    "negative": ["Oh no!", "That's too bad.", "Hmm, let's try something else."],
+    "generic": ["Interesting!", "Tell me more!", "I see...", "Fascinating!", "I didn't quite get that..."]
+  }
+  

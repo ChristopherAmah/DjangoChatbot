@@ -1,35 +1,58 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-import openai
+# import openai
 from django.contrib import auth
 from django.contrib.auth.models import User
 from .models import Chat
 from django.utils import timezone
+import json
+import random
 
 
 
-openai_api_key = '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'
-openai.api_key = openai_api_key
+# openai_api_key = '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'
+# openai.api_key = openai_api_key
 
-def ask_openai(message):
-    response = openai.Completion.create(
-        model = "davinci-002",
-        prompt = message,
-        max_tokens=150,
-        n=1,
-        stop=None,
-        temperature=0.7,
-    )
-    answer = response.choices[0].text.strip()
-    return answer
+# def ask_openai(message):
+#     response = openai.Completion.create(
+#         model = "davinci-002",
+#         prompt = message,
+#         max_tokens=150,
+#         n=1,
+#         stop=None,
+#         temperature=0.7,
+#     )
+#     answer = response.choices[0].text.strip()
+#     return answer
+
+# Load responses from JSON file
+with open('responses.json') as file:
+    responses = json.load(file)
+
+# Function to generate a response based on user input
+def generate_response(user_input):
+    if 'hello' in user_input.lower() or 'hi' in user_input.lower():
+        return random.choice(responses['greetings'])
+    elif 'bye' in user_input.lower() or 'goodbye' in user_input.lower():
+        return random.choice(responses['farewell'])
+    elif '?' in user_input:
+        return random.choice(responses['questions'])
+    elif 'yes' in user_input.lower() or 'sure' in user_input.lower() or 'yeah' in user_input.lower():
+        return random.choice(responses['affirmative'])
+    elif 'no' in user_input.lower() or 'nah' in user_input.lower():
+        return random.choice(responses['negative'])
+    else:
+        return random.choice(responses['generic'])
+
+
 
 # Create your views here.
 def chatbot(request):
     chats = Chat.objects.filter(user=request.user)
 
-    if request.method =='POST':
+    if request.method == 'POST':
         message = request.POST.get('message')
-        response = ask_openai(message)
+        response = generate_response(message)
 
         chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
         chat.save()
